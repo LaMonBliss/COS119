@@ -1,1 +1,14 @@
-##
+# Visual Studio
+.vs/
+x64/
+Debug/
+Release/
+*.vsidx
+*.vcxproj.user
+
+# Obsidian
+.obsidian/
+
+# OS junk
+.DS_Store
+Thumbs.db
