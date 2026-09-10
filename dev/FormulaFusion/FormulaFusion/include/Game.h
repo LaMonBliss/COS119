@@ -23,4 +23,5 @@ private:
     void GuessItMode();                     // show a formula, let the player guess the name
     void BuildItMode();                     // placeholder for the next milestone
     int GetChoice(int min, int max) const;  // safe menu input, keeps asking until it is valid
+    std::string Normalize(const std::string& text) const;  // lowercases and trims a string so guesses are forgiving
 };

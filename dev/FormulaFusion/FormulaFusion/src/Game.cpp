@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <iostream>
 #include <random>
+#include <cctype>   // cctype gives me tolower, which i use to lowercase each character in Normalize
 
 // constructor.. the moment a Game is made i load all the data so everything is ready to play
 Game::Game()
@@ -102,7 +103,9 @@ void Game::GuessItMode()
     std::string guess;
     std::getline(std::cin, guess);
 
-    if (guess == target.GetName())
+    // run BOTH the guess and the real name through Normalize before comparing.. that way casing and
+    // stray spaces do not matter, so water, WATER, and " Water " all count as a correct Water
+    if (Normalize(guess) == Normalize(target.GetName()))
     {
         std::cout << "Correct! " << target.GetFact() << "\n";
     }
@@ -140,4 +143,31 @@ int Game::GetChoice(int min, int max) const
             return choice;                  // good input, hand it back and stop looping
         }
     }
+}
+
+// takes a string and hands back a cleaned up copy.. everything lowercase with no spaces on the ends.
+// i run guesses and answers through this so the player does not get punished for casing or a stray space.
+std::string Game::Normalize(const std::string& text) const
+{
+    std::string result = text;   // start with a copy so i never change the original the caller passed in
+
+    // walk every character and lowercase it.. tolower wants an unsigned char, so i cast to be safe
+    for (char& c : result)
+    {
+        c = (char)std::tolower((unsigned char)c);
+    }
+
+    // chop any spaces off the front, one at a time, until the first character is a real one
+    while (!result.empty() && result.front() == ' ')
+    {
+        result.erase(result.begin());
+    }
+
+    // chop any spaces off the back the same way
+    while (!result.empty() && result.back() == ' ')
+    {
+        result.pop_back();
+    }
+
+    return result;   // hand back the cleaned up version, ready to compare
 }
