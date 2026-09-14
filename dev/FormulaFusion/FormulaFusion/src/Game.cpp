@@ -117,9 +117,81 @@ void Game::GuessItMode()
 }
 
 // Build It is a next milestone feature.. for now it just says so, so the menu option stays honest
+// Build It.. name a compound, then let the player assemble its formula one element at a time.
 void Game::BuildItMode()
 {
-    std::cout << "\nBuild It mode is coming in the next milestone. Hang tight!\n";
+    // pick a random compound for the player to build, same idea as Guess It
+    static std::mt19937 engine(std::random_device{}());
+    std::uniform_int_distribution<int> pick(0, (int)compounds.size() - 1);
+    const Compound& target = compounds[pick(engine)];
+
+    std::cout << "\n--- Build It ---\n";
+    std::cout << "Build this compound: " << target.GetName() << "\n";
+
+    // show the player which symbols they have to work with
+    std::cout << "Available elements: ";
+    for (size_t i = 0; i < elements.size(); i++)
+    {
+        std::cout << elements[i].GetSymbol();
+        if (i < elements.size() - 1)   // comma between them, but not after the last one
+        {
+            std::cout << ", ";
+        }
+    }
+    std::cout << "\n\n";
+    std::cout << "Add elements to your formula, one at a time. Type 'done' when finished.\n";
+
+    std::string built;   // the formula the player is assembling, starts empty
+
+    while (true)
+    {
+        std::cout << "Element symbol (or done): ";
+        std::string symbol;
+        std::getline(std::cin, symbol);
+
+        if (Normalize(symbol) == "done")   // the player is finished adding elements
+        {
+            break;
+        }
+
+        // make sure it is a real element from our list before we accept it
+        const Element* found = FindElement(symbol);
+        if (found == nullptr)   // FindElement handed back null, so this symbol is not one we have
+        {
+            std::cout << "  that is not one of the available elements, try again.\n";
+            continue;   // skip the rest of the loop and ask again
+        }
+
+        int count = GetCount(1, 20);   // how many of this element, validated
+
+        // add the element's REAL symbol (proper casing from our data), not whatever the player typed
+        built += found->GetSymbol();
+        if (count > 1)   // chemists write O, not O1, so only tack on the number when it is more than one
+        {
+            built += std::to_string(count);
+        }
+
+        std::cout << "  added " << found->GetSymbol();
+        if (count > 1)
+        {
+            std::cout << count;
+        }
+        std::cout << "   ->  formula so far: " << built << "\n";
+    }
+
+    std::cout << "\nYou built: " << built << "\n";
+
+    // compare what they built to the real formula.. since we assembled it from our own canonical
+    // symbols, a straight comparison is safe and keeps element casing correct
+    if (built == target.GetFormula())
+    {
+        std::cout << "Correct! " << target.GetFact() << "\n";
+    }
+    else
+    {
+        std::cout << "Not quite. " << target.GetName() << " is " << target.GetFormula() << ".\n";
+        std::cout << target.GetFact() << "\n";
+    }
 }
 
 // keeps asking until the player types a whole number inside the range i pass in
@@ -170,4 +242,44 @@ std::string Game::Normalize(const std::string& text) const
     }
 
     return result;   // hand back the cleaned up version, ready to compare
+}
+
+// looks up an element by its symbol, ignoring case so h and H both work.
+// returns a POINTER to the real element if we have it, or nullptr if we do not.
+// a pointer is handy here because the caller can check it for null AND read the element's proper symbol.
+const Element* Game::FindElement(const std::string& symbol) const
+{
+    std::string wanted = Normalize(symbol);   // clean up what the player typed first
+    for (const Element& e : elements)         // walk every element we loaded
+    {
+        if (Normalize(e.GetSymbol()) == wanted)   // compare cleaned up to cleaned up
+        {
+            return &e;   // match found, hand back its address so the caller can use the real thing
+        }
+    }
+    return nullptr;   // made it through the whole list with no match, so we do not have this element
+}
+
+// reads a whole number count for Build It and keeps asking until it gets a valid one in range.
+// this one is line based (getline) so it plays nicely with the symbol reading in Build It.
+int Game::GetCount(int min, int max) const
+{
+    while (true)
+    {
+        std::cout << "How many? ";
+        std::string line;
+        std::getline(std::cin, line);
+
+        try
+        {
+            int value = std::stoi(line);          // stoi turns the text into an int, or throws if it is not a number
+            if (value >= min && value <= max)
+            {
+                return value;                     // good number in range, hand it back
+            }
+        }
+        catch (...) { }                           // stoi threw because it was not a number, fall through to the retry
+
+        std::cout << "  please enter a number from " << min << " to " << max << ".\n";
+    }
 }
