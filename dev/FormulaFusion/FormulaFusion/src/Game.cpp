@@ -216,31 +216,23 @@ int Game::GetChoice(int min, int max) const
     }
 }
 
-// takes a string and hands back a cleaned up copy.. everything lowercase with no spaces on the ends.
-// i run guesses and answers through this so the player does not get punished for casing or a stray space.
+// takes a string and hands back a cleaned up copy.. lowercase, with spaces and special characters stripped out.
+// i run guesses and answers through this so the player is not punished for casing, spaces, or punctuation.
 std::string Game::Normalize(const std::string& text) const
 {
-    std::string result = text;   // start with a copy so i never change the original the caller passed in
+    std::string result;   // build up the cleaned copy one character at a time, starting empty
 
-    // walk every character and lowercase it.. tolower wants an unsigned char, so i cast to be safe
-    for (char& c : result)
+    for (char c : text)
     {
-        c = (char)std::tolower((unsigned char)c);
+        unsigned char uc = (unsigned char)c;   // isalnum and tolower both want an unsigned char to be safe
+        if (std::isalnum(uc))                  // keep the character only if it is a letter or a digit
+        {
+            result += (char)std::tolower(uc);  // lowercase it as we add it, so casing never matters
+        }
+        // anything else, spaces, punctuation, or symbols like ! ? and -, just gets skipped over
     }
 
-    // chop any spaces off the front, one at a time, until the first character is a real one
-    while (!result.empty() && result.front() == ' ')
-    {
-        result.erase(result.begin());
-    }
-
-    // chop any spaces off the back the same way
-    while (!result.empty() && result.back() == ' ')
-    {
-        result.pop_back();
-    }
-
-    return result;   // hand back the cleaned up version, ready to compare
+    return result;   // lowercase, letters and digits only, so casing and special characters do not matter
 }
 
 // looks up an element by its symbol, ignoring case so h and H both work.

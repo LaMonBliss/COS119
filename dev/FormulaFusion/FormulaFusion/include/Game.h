@@ -24,6 +24,6 @@ private:
     void BuildItMode();                     // placeholder for the next milestone
     int GetChoice(int min, int max) const;  // safe menu input, keeps asking until it is valid
     int GetCount(int min, int max) const;   // reads a whole number count for Build It, line based
-    std::string Normalize(const std::string& text) const;  // lowercases and trims a string so guesses are forgiving
+    std::string Normalize(const std::string& text) const;  // lowercases and strips spaces/special chars so guesses are forgiving
     const Element* FindElement(const std::string& symbol) const;  // looks up an element by symbol, or nullptr if we do not have it
 };
