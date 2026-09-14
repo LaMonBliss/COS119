@@ -52,3 +52,31 @@ I also kept my code cleanly separated across files instead of dumping everything
 Before the next milestone I want to finish Build It mode so the player can assemble a
 formula, add case insensitive guessing, start a scoring system, and eventually save
 high scores out to a file.
+
+### Milestone 2
+
+**Overview**
+
+This week I turned the structure into a game that actually plays. I finished Build It mode,
+where the game names a compound and I assemble its formula element by element, and I made
+both game modes a lot more forgiving so casing, extra spaces, and special characters no
+longer get a correct answer marked wrong. I also wrote a prototype blueprint and a
+Milestone 2 planning worksheet for my docs folder.
+
+**Challenges**
+
+My main obstacle was Git. I got turned around between my dev and main branches and briefly
+thought I lost my work, but it was safe and I was just on the wrong branch. I am handling
+that by checking which branch I am on before I commit. Reading a symbol and then a number
+in Build It also got finicky, so I wrote a dedicated line based input helper to keep it clean.
+
+**Accomplishments**
+
+I leveled up on writing reusable code. One cleanup helper is shared by both game modes, so a
+single change made the whole game more forgiving at once. I also used a helper that hands back
+a pointer to look up an element by its symbol, which is what finally made pointers click for me.
+
+**Next Steps**
+
+Before Week 3 I want to add a scoring system, then build saving and loading high scores to a
+file, which will be my main chance to practice file input and output.
