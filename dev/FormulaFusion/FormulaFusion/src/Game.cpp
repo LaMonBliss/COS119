@@ -63,7 +63,7 @@ void Game::ShowMenu() const
     std::cout << "1. View Elements\n";
     std::cout << "2. View Compounds\n";
     std::cout << "3. Guess It  (guess the compound from its formula)\n";
-    std::cout << "4. Build It  (coming in the next milestone)\n";
+    std::cout << "4. Build It  (build the formula from elements)\n";
     std::cout << "5. Quit\n";
 }
 
@@ -116,7 +116,6 @@ void Game::GuessItMode()
     }
 }
 
-// Build It is a next milestone feature.. for now it just says so, so the menu option stays honest
 // Build It.. name a compound, then let the player assemble its formula one element at a time.
 void Game::BuildItMode()
 {
