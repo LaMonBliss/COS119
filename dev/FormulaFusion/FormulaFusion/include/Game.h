@@ -15,6 +15,7 @@ public:
 private:
     std::vector<Element> elements;     // my subset of the periodic table
     std::vector<Compound> compounds;   // the compounds the player can learn and guess
+    int currentScore = 0;              // how many the player has gotten right this session
 
     void LoadData();                        // fills the two vectors above with the starting set
     void ShowMenu() const;                  // prints the main menu options

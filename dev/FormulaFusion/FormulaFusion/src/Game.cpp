@@ -60,6 +60,7 @@ void Game::Run()
 void Game::ShowMenu() const
 {
     std::cout << "\n------------ Main Menu ------------\n";
+    std::cout << "Current score: " << currentScore << "\n";
     std::cout << "1. View Elements\n";
     std::cout << "2. View Compounds\n";
     std::cout << "3. Guess It  (guess the compound from its formula)\n";
@@ -115,6 +116,7 @@ void Game::GuessItMode()
     // stray spaces do not matter, so water, WATER, and " Water " all count as a correct Water
     if (Normalize(guess) == Normalize(target.GetName()))
     {
+        currentScore++;   // one more right answer this session
         std::cout << "Correct! " << target.GetFact() << "\n";
     }
     else
@@ -189,6 +191,7 @@ void Game::BuildItMode()
     // symbols, a straight comparison is safe and keeps element casing correct
     if (built == target.GetFormula())
     {
+        currentScore++;   // one more right answer this session
         std::cout << "Correct! " << target.GetFact() << "\n";
     }
     else
