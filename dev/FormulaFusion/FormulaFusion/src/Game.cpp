@@ -2,11 +2,13 @@
 #include <iostream>
 #include <random>
 #include <cctype>   // cctype gives me tolower, which i use to lowercase each character in Normalize
+#include <fstream>  // fstream gives me ifstream and ofstream for reading and writing the high scores file
 
-// constructor.. the moment a Game is made i load all the data so everything is ready to play
+// constructor.. the moment a Game is made i load all the data and any saved high scores
 Game::Game()
 {
     LoadData();
+    LoadHighScores();
 }
 
 // fill the element table and the compound list.. hardcoded for now, i can move this out to a file later
@@ -40,7 +42,7 @@ void Game::Run()
     while (running)
     {
         ShowMenu();
-        int choice = GetChoice(1, 5);   // only 1 through 5 are real options
+        int choice = GetChoice(1, 6);   // only 1 through 6 are real options
 
         switch (choice)
         {
@@ -48,7 +50,22 @@ void Game::Run()
         case 2: ViewCompounds(); break;
         case 3: GuessItMode(); break;
         case 4: BuildItMode(); break;
-        case 5:
+        case 5: ViewHighScores(); break;
+        case 6:
+            // if the player scored anything this session, save it to the high scores before we leave
+            if (currentScore > 0)
+            {
+                std::cout << "\nNice run! Enter your name for the high scores: ";
+                std::string name;
+                std::getline(std::cin, name);
+
+                Highscore entry;          // build one high score entry from the name and this session's score
+                entry.name = name;
+                entry.score = currentScore;
+                highScores.push_back(entry);
+
+                SaveHighScores();         // write the updated list back to the file
+            }
             std::cout << "\nThanks for playing Formula Fusion. See ya!\n";
             running = false;   // flip the flag so the while loop ends cleanly
             break;
@@ -65,7 +82,8 @@ void Game::ShowMenu() const
     std::cout << "2. View Compounds\n";
     std::cout << "3. Guess It  (guess the compound from its formula)\n";
     std::cout << "4. Build It  (build the formula from elements)\n";
-    std::cout << "5. Quit\n";
+    std::cout << "5. View High Scores\n";
+    std::cout << "6. Quit\n";
 }
 
 // list out every element i loaded, lined up in a little table
@@ -280,5 +298,57 @@ int Game::GetCount(int min, int max) const
         catch (...) { }                           // stoi threw because it was not a number, fall through to the retry
 
         std::cout << "  please enter a number from " << min << " to " << max << ".\n";
+    }
+}
+
+// reads the saved high scores from the file when the game starts up.
+// if the file does not exist yet, like on the very first run, i just skip it and start empty.
+void Game::LoadHighScores()
+{
+    std::ifstream inFile(highScoreFile);   // try to open the high scores file for reading
+    if (!inFile)   // the file is not there yet, so there is nothing to load
+    {
+        return;
+    }
+
+    int score;
+    while (inFile >> score)   // read a score.. the loop ends when there are no more numbers to read
+    {
+        inFile.ignore();      // skip the newline sitting right after the number
+
+        Highscore entry;      // build one entry from the score and the name on the next line
+        entry.score = score;
+        std::getline(inFile, entry.name);   // read the whole name line, spaces and all
+        highScores.push_back(entry);
+    }
+
+    inFile.close();
+}
+
+// writes the whole high scores list back out to the file, replacing whatever was there before.
+void Game::SaveHighScores() const
+{
+    std::ofstream outFile(highScoreFile);   // open for writing, this overwrites the file's contents
+    for (const Highscore& h : highScores)
+    {
+        // score on one line, then the name on the next.. that way names with spaces still read back cleanly
+        outFile << h.score << "\n" << h.name << "\n";
+    }
+    outFile.close();
+}
+
+// prints the saved high scores, or a friendly note if there are not any yet.
+void Game::ViewHighScores() const
+{
+    std::cout << "\n--- High Scores ---\n";
+    if (highScores.size() == 0)   // nothing has been saved yet
+    {
+        std::cout << "No high scores yet. Go earn one!\n";
+        return;
+    }
+
+    for (const Highscore& h : highScores)
+    {
+        std::cout << h.name << "\t" << h.score << "\n";
     }
 }
