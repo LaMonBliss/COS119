@@ -87,13 +87,21 @@ void Game::ViewCompounds() const
     }
 }
 
+// picks one random compound from my list and hands back a reference to it.
+// both game modes call this, so the random logic lives in one spot instead of being copied twice.
+const Compound& Game::GetRandomCompound() const
+{
+    // one random engine, seeded once off the hardware, kept alive between calls with static
+    static std::mt19937 engine(std::random_device{}());
+    // the distribution covers every valid index into my compound list
+    std::uniform_int_distribution<int> pick(0, (int)compounds.size() - 1);
+    return compounds[pick(engine)];   // hand back a reference to the chosen compound
+}
+
 // Guess It.. pick a random compound, show its formula, and see if the player knows the name
 void Game::GuessItMode()
 {
-    // one random engine seeded off the hardware, then a distribution spanning my compound indexes
-    static std::mt19937 engine(std::random_device{}());
-    std::uniform_int_distribution<int> pick(0, (int)compounds.size() - 1);
-    const Compound& target = compounds[pick(engine)];
+    const Compound& target = GetRandomCompound();   // grab a random compound to quiz the player on
 
     std::cout << "\n--- Guess It ---\n";
     std::cout << "What compound has the formula " << target.GetFormula() << " ?\n";
@@ -119,10 +127,7 @@ void Game::GuessItMode()
 // Build It.. name a compound, then let the player assemble its formula one element at a time.
 void Game::BuildItMode()
 {
-    // pick a random compound for the player to build, same idea as Guess It
-    static std::mt19937 engine(std::random_device{}());
-    std::uniform_int_distribution<int> pick(0, (int)compounds.size() - 1);
-    const Compound& target = compounds[pick(engine)];
+    const Compound& target = GetRandomCompound();   // grab a random compound for the player to build
 
     std::cout << "\n--- Build It ---\n";
     std::cout << "Build this compound: " << target.GetName() << "\n";
