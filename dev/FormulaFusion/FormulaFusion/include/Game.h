@@ -31,7 +31,8 @@ private:
     void ViewElements() const;              // lists every element i loaded
     void ViewCompounds() const;             // lists every compound with its formula
     void GuessItMode();                     // show a formula, let the player guess the name
-    void BuildItMode();                     // placeholder for the next milestone
+    void BuildItMode();                     // name a compound, let the player assemble the formula
+    void ShowResult(bool correct, const Compound& target, const std::string& missMessage);  // shared correct or miss ending for both modes
     int GetChoice(int min, int max) const;  // safe menu input, keeps asking until it is valid
     int GetCount(int min, int max) const;   // reads a whole number count for Build It, line based
     std::string Normalize(const std::string& text) const;  // lowercases and strips spaces/special chars so guesses are forgiving

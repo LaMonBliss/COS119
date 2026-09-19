@@ -117,6 +117,23 @@ const Compound& Game::GetRandomCompound() const
     return compounds[pick(engine)];   // hand back a reference to the chosen compound
 }
 
+// the shared ending both game modes use once they know if the player was right.
+// on a correct answer it bumps the score and shows the fact, otherwise it prints the miss
+// message the mode passed in, then the fact. keeping it here means the result logic lives in one spot.
+void Game::ShowResult(bool correct, const Compound& target, const std::string& missMessage)
+{
+    if (correct)
+    {
+        currentScore++;   // one more right answer this session
+        std::cout << "Correct! " << target.GetFact() << "\n";
+    }
+    else
+    {
+        std::cout << missMessage << "\n";       // the mode's own wording for a wrong answer
+        std::cout << target.GetFact() << "\n";  // still share the fun fact either way
+    }
+}
+
 // Guess It.. pick a random compound, show its formula, and see if the player knows the name
 void Game::GuessItMode()
 {
@@ -132,16 +149,9 @@ void Game::GuessItMode()
 
     // run BOTH the guess and the real name through Normalize before comparing.. that way casing and
     // stray spaces do not matter, so water, WATER, and " Water " all count as a correct Water
-    if (Normalize(guess) == Normalize(target.GetName()))
-    {
-        currentScore++;   // one more right answer this session
-        std::cout << "Correct! " << target.GetFact() << "\n";
-    }
-    else
-    {
-        std::cout << "Not quite. That formula is " << target.GetName() << ".\n";
-        std::cout << target.GetFact() << "\n";
-    }
+    // did they get it? then hand the result off to the shared ending, with my own miss message
+    bool correct = (Normalize(guess) == Normalize(target.GetName()));
+    ShowResult(correct, target, "Not quite. That formula is " + target.GetName() + ".");
 }
 
 // Build It.. name a compound, then let the player assemble its formula one element at a time.
@@ -207,16 +217,9 @@ void Game::BuildItMode()
 
     // compare what they built to the real formula.. since we assembled it from our own canonical
     // symbols, a straight comparison is safe and keeps element casing correct
-    if (built == target.GetFormula())
-    {
-        currentScore++;   // one more right answer this session
-        std::cout << "Correct! " << target.GetFact() << "\n";
-    }
-    else
-    {
-        std::cout << "Not quite. " << target.GetName() << " is " << target.GetFormula() << ".\n";
-        std::cout << target.GetFact() << "\n";
-    }
+    // check what they built against the real formula, then use the shared ending with my own miss message
+    bool correct = (built == target.GetFormula());
+    ShowResult(correct, target, "Not quite. " + target.GetName() + " is " + target.GetFormula() + ".");
 }
 
 // keeps asking until the player types a whole number inside the range i pass in
