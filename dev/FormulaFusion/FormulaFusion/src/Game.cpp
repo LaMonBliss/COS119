@@ -134,6 +134,43 @@ void Game::ShowResult(bool correct, const Compound& target, const std::string& m
     }
 }
 
+// draws the atoms the player has added so far as a little ascii molecule diagram.
+// each atom becomes a boxed node, and the boxes get wired together with bond lines,
+// so the player watches their compound take shape one element at a time.
+void Game::DrawMolecule(const std::vector<std::string>& atoms) const
+{
+    if (atoms.size() == 0)   // nothing added yet, so there is nothing to draw
+    {
+        return;
+    }
+
+    std::string top;      // the top edges of every box
+    std::string middle;   // the row that holds the symbols and the bonds between boxes
+    std::string bottom;   // the bottom edges of every box
+
+    for (size_t i = 0; i < atoms.size(); i++)
+    {
+        if (i > 0)   // this is not the first atom, so wire it to the one before with a bond
+        {
+            top += "   ";      // blank space above the bond so the boxes still line up
+            middle += "---";   // the bond line itself sits on the middle row
+            bottom += "   ";   // blank space below the bond
+        }
+
+        std::string symbol = atoms[i];   // the element symbol that goes inside this box
+        if (symbol.size() == 1)          // pad a one letter symbol so every box is the same width
+        {
+            symbol += " ";
+        }
+
+        top += "+----+";                 // one box top
+        middle += "| " + symbol + " |";  // the symbol boxed on the middle row
+        bottom += "+----+";              // one box bottom
+    }
+
+    std::cout << top << "\n" << middle << "\n" << bottom << "\n";
+}
+
 // Guess It.. pick a random compound, show its formula, and see if the player knows the name
 void Game::GuessItMode()
 {
@@ -175,7 +212,8 @@ void Game::BuildItMode()
     std::cout << "\n\n";
     std::cout << "Add elements to your formula, one at a time. Type 'done' when finished.\n";
 
-    std::string built;   // the formula the player is assembling, starts empty
+    std::string built;                  // the formula the player is assembling, starts empty
+    std::vector<std::string> atoms;     // every atom added in order, so i can draw the molecule as it grows
 
     while (true)
     {
@@ -205,15 +243,23 @@ void Game::BuildItMode()
             built += std::to_string(count);
         }
 
+        // also record each atom on its own so the molecule diagram can show every node
+        for (int k = 0; k < count; k++)
+        {
+            atoms.push_back(found->GetSymbol());
+        }
+
         std::cout << "  added " << found->GetSymbol();
         if (count > 1)
         {
             std::cout << count;
         }
         std::cout << "   ->  formula so far: " << built << "\n";
+        DrawMolecule(atoms);   // draw the molecule taking shape as it grows
     }
 
     std::cout << "\nYou built: " << built << "\n";
+    DrawMolecule(atoms);   // one last look at the finished molecule
 
     // compare what they built to the real formula.. since we assembled it from our own canonical
     // symbols, a straight comparison is safe and keeps element casing correct
