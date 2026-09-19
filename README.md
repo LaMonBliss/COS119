@@ -93,9 +93,11 @@ you do and remembers it between runs.
 
 I added a scoring system that tracks correct answers and shows the current score in the menu.
 I added saving and loading high scores to a file, plus a View High Scores option, so the
-leaderboard carries over between runs. On the code quality side I did two refactors, pulling the
-duplicated random compound pick into a shared GetRandomCompound helper, and pulling the shared
-correct or miss ending out of both modes into a ShowResult helper.
+leaderboard carries over between runs. I also added an ASCII molecule diagram to Build It that
+draws the compound as boxed atoms wired together, growing live as the player adds each element.
+On the code quality side I did two refactors, pulling the duplicated random compound pick into a
+shared GetRandomCompound helper, and pulling the shared correct or miss ending out of both modes
+into a ShowResult helper.
 
 **Challenges**
 
@@ -112,5 +114,5 @@ helpers instead of leaving it copy pasted.
 
 **Next Steps**
 
-Before Week 4 I want to keep refining, maybe sort the high scores so the best one shows first,
-and look at adding ASCII molecule diagrams for the compounds.
+Before Week 4 I want to keep refining, sort the high scores so the best one shows first, and
+maybe add a few more compounds so there is more variety to play with.

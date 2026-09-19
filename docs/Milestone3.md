@@ -20,6 +20,12 @@ over between runs. I also added a View High Scores option to the main menu. If t
 not exist yet, like on the very first run, the game just starts with an empty list instead of
 erroring out.
 
+**ASCII molecule diagram**
+Build It now draws the compound as an ASCII diagram while the player assembles it. Each atom
+shows up as a boxed node wired to the next with a bond line, and the diagram grows live as each
+element is added, then shows once more at the reveal. It builds the picture from a list of the
+atoms the player has added, so it works for any compound they put together.
+
 ## Refactoring Improvements
 
 **GetRandomCompound**
@@ -52,6 +58,6 @@ ShowResult refactor.
 
 ## Next Steps (Week 4)
 
-- Possibly show ASCII molecule diagrams for the compounds
 - Sort the high scores so the best score shows first
+- Maybe add a few more compounds for variety
 - Keep looking for any other duplication to clean up
