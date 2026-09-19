@@ -80,3 +80,37 @@ a pointer to look up an element by its symbol, which is what finally made pointe
 
 Before Week 3 I want to add a scoring system, then build saving and loading high scores to a
 file, which will be my main chance to practice file input and output.
+
+### Milestone 3
+
+**Overview**
+
+This week I expanded Formula Fusion with real progress features and spent time cleaning up the
+code I already had. The game went from a two mode quiz to something that actually tracks how
+you do and remembers it between runs.
+
+**Improvements**
+
+I added a scoring system that tracks correct answers and shows the current score in the menu.
+I added saving and loading high scores to a file, plus a View High Scores option, so the
+leaderboard carries over between runs. On the code quality side I did two refactors, pulling the
+duplicated random compound pick into a shared GetRandomCompound helper, and pulling the shared
+correct or miss ending out of both modes into a ShowResult helper.
+
+**Challenges**
+
+The honest one was staying on pace after a lighter week, which I handled by breaking the work
+into small commits and knocking them out one at a time. On the code side, getting the high
+scores file to read names with spaces and to not crash on the very first run when the file does
+not exist yet took a little care.
+
+**Accomplishments**
+
+I leveled up on file input and output, actually reading from and writing to a file for the first
+time in this project. I also got better at spotting duplicated code and pulling it into shared
+helpers instead of leaving it copy pasted.
+
+**Next Steps**
+
+Before Week 4 I want to keep refining, maybe sort the high scores so the best one shows first,
+and look at adding ASCII molecule diagrams for the compounds.
