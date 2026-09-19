@@ -27,6 +27,8 @@ private:
     std::string highScoreFile = "highscores.txt";  // the file the high scores live in
 
     void LoadData();                        // fills the two vectors above with the starting set
+    void ClearScreen() const;               // wipes the console so each screen starts fresh instead of scrolling
+    void PauseForEnter() const;             // waits for Enter so the player can read the screen before it clears
     void ShowMenu() const;                  // prints the main menu options
     void ViewElements() const;              // lists every element i loaded
     void ViewCompounds() const;             // lists every compound with its formula

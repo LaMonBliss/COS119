@@ -3,6 +3,7 @@
 #include <random>
 #include <cctype>   // cctype gives me tolower, which i use to lowercase each character in Normalize
 #include <fstream>  // fstream gives me ifstream and ofstream for reading and writing the high scores file
+#include <cstdlib>  // cstdlib gives me system, which i use to clear the console screen
 
 // constructor.. the moment a Game is made i load all the data and any saved high scores
 Game::Game()
@@ -34,13 +35,15 @@ void Game::LoadData()
 // the main loop.. show the menu, grab a valid choice, do the thing, then repeat until they quit
 void Game::Run()
 {
-    std::cout << "=====================================\n";
-    std::cout << "        Welcome to Formula Fusion\n";
-    std::cout << "=====================================\n";
-
     bool running = true;
     while (running)
     {
+        ClearScreen();   // start every round on a fresh screen so the game does not scroll forever
+
+        std::cout << "=====================================\n";
+        std::cout << "        Welcome to Formula Fusion\n";
+        std::cout << "=====================================\n";
+
         ShowMenu();
         int choice = GetChoice(1, 6);   // only 1 through 6 are real options
 
@@ -70,7 +73,27 @@ void Game::Run()
             running = false;   // flip the flag so the while loop ends cleanly
             break;
         }
+
+        if (running)   // if they did not quit, hold the screen so they can read it before the next clear
+        {
+            PauseForEnter();
+        }
     }
+}
+
+// clears the console so the game shows one clean screen at a time instead of one long scroll.
+void Game::ClearScreen() const
+{
+    system("cls");   // cls is the windows command that wipes the console
+}
+
+// holds the screen until the player presses Enter, so they can actually read what just happened
+// before the next clear wipes it away.
+void Game::PauseForEnter() const
+{
+    std::cout << "\nPress Enter to continue...";
+    std::string dummy;
+    std::getline(std::cin, dummy);   // just wait here until they hit Enter
 }
 
 // just prints the options.. const because printing a menu changes nothing about the game
