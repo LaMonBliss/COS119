@@ -35,6 +35,14 @@ void Game::LoadData()
 // the main loop.. show the menu, grab a valid choice, do the thing, then repeat until they quit
 void Game::Run()
 {
+    // greet the player and grab their name once, up front, so every high score they earn is saved under it
+    ClearScreen();
+    std::cout << "=====================================\n";
+    std::cout << "        Welcome to Formula Fusion\n";
+    std::cout << "=====================================\n";
+    std::cout << "\nWhat is your player name? ";
+    std::getline(std::cin, playerName);
+
     bool running = true;
     while (running)
     {
@@ -58,18 +66,15 @@ void Game::Run()
             // if the player scored anything this session, save it to the high scores before we leave
             if (currentScore > 0)
             {
-                std::cout << "\nNice run! Enter your name for the high scores: ";
-                std::string name;
-                std::getline(std::cin, name);
-
-                Highscore entry;          // build one high score entry from the name and this session's score
-                entry.name = name;
+                Highscore entry;          // record this run under the name we grabbed at the start
+                entry.name = playerName;
                 entry.score = currentScore;
                 highScores.push_back(entry);
 
+                SortAndCapHighScores();   // keep the leaderboard ranked best first and trimmed to the top 10
                 SaveHighScores();         // write the updated list back to the file
             }
-            std::cout << "\nThanks for playing Formula Fusion. See ya!\n";
+            std::cout << "\nThanks for playing, " << playerName << "! See ya!\n";
             running = false;   // flip the flag so the while loop ends cleanly
             break;
         }
@@ -395,6 +400,7 @@ void Game::LoadHighScores()
     }
 
     inFile.close();
+    SortAndCapHighScores();   // make sure the loaded list is ranked and trimmed before anyone views it
 }
 
 // writes the whole high scores list back out to the file, replacing whatever was there before.
@@ -419,8 +425,34 @@ void Game::ViewHighScores() const
         return;
     }
 
-    for (const Highscore& h : highScores)
+    // the list is already ranked best first, so i just number them off as i print
+    for (size_t i = 0; i < highScores.size(); i++)
     {
-        std::cout << h.name << "\t" << h.score << "\n";
+        std::cout << (i + 1) << ". " << highScores[i].name << "\t" << highScores[i].score << "\n";
+    }
+}
+
+// ranks the high scores so the biggest score is first, then trims the list down to the top 10.
+void Game::SortAndCapHighScores()
+{
+    // a simple bubble sort.. i keep sweeping through and swapping any pair that is out of order,
+    // pushing the bigger scores toward the front, until the whole list is ranked highest first.
+    for (size_t pass = 0; pass < highScores.size(); pass++)
+    {
+        for (size_t j = 0; j + 1 < highScores.size(); j++)
+        {
+            if (highScores[j].score < highScores[j + 1].score)   // the later one is bigger, so they are out of order
+            {
+                Highscore temp = highScores[j];       // stash the smaller one
+                highScores[j] = highScores[j + 1];    // move the bigger one up
+                highScores[j + 1] = temp;             // drop the stashed one into the open spot
+            }
+        }
+    }
+
+    // now that the best scores are up front, drop anything past the tenth spot so the list stays a top 10
+    while (highScores.size() > 10)
+    {
+        highScores.pop_back();
     }
 }

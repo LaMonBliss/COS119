@@ -25,6 +25,7 @@ private:
     int currentScore = 0;              // how many the player has gotten right this session
     std::vector<Highscore> highScores; // the saved leaderboard, loaded from and written back to a file
     std::string highScoreFile = "highscores.txt";  // the file the high scores live in
+    std::string playerName;            // the name the player gives at the start, used when saving their score
 
     void LoadData();                        // fills the two vectors above with the starting set
     void ClearScreen() const;               // wipes the console so each screen starts fresh instead of scrolling
@@ -44,4 +45,5 @@ private:
     void LoadHighScores();                      // reads saved high scores from the file on startup
     void SaveHighScores() const;                // writes the high scores back out to the file
     void ViewHighScores() const;                // prints the saved high scores
+    void SortAndCapHighScores();                // ranks the high scores best first and keeps only the top 10
 };
