@@ -23,13 +23,13 @@ void Game::LoadData()
     elements.push_back(Element("Na", "Sodium", 11));
     elements.push_back(Element("Cl", "Chlorine", 17));
 
-    // the compounds the player can view and guess.. name, formula, and a quick fact for each
-    compounds.push_back(Compound("Water", "H2O", "Covers about 71 percent of the earth's surface."));
-    compounds.push_back(Compound("Carbon Dioxide", "CO2", "What we breathe out and plants breathe in."));
-    compounds.push_back(Compound("Table Salt", "NaCl", "The salt sitting on your kitchen table."));
-    compounds.push_back(Compound("Ammonia", "NH3", "That sharp smell in a lot of cleaning products."));
-    compounds.push_back(Compound("Methane", "CH4", "The main ingredient in natural gas."));
-    compounds.push_back(Compound("Hydrogen Peroxide", "H2O2", "The stuff that bubbles up on a cut."));
+    // the compounds the player can view and guess.. name, formula, a quick fact, and a difficulty (1 to 3)
+    compounds.push_back(Compound("Water", "H2O", "Covers about 71 percent of the earth's surface.", 1));
+    compounds.push_back(Compound("Carbon Dioxide", "CO2", "What we breathe out and plants breathe in.", 1));
+    compounds.push_back(Compound("Table Salt", "NaCl", "The salt sitting on your kitchen table.", 1));
+    compounds.push_back(Compound("Ammonia", "NH3", "That sharp smell in a lot of cleaning products.", 2));
+    compounds.push_back(Compound("Methane", "CH4", "The main ingredient in natural gas.", 2));
+    compounds.push_back(Compound("Hydrogen Peroxide", "H2O2", "The stuff that bubbles up on a cut.", 3));
 }
 
 // the main loop.. show the menu, grab a valid choice, do the thing, then repeat until they quit
@@ -42,6 +42,31 @@ void Game::Run()
     std::cout << "=====================================\n";
     std::cout << "\nWhat is your player name? ";
     std::getline(std::cin, playerName);
+
+    // let the player pick a difficulty, which sets both the points per question and how tough the compounds get
+    std::cout << "\nPick a difficulty:\n";
+    std::cout << "1. Easy    (10 points, simple compounds)\n";
+    std::cout << "2. Medium  (20 points, tougher compounds)\n";
+    std::cout << "3. Hard    (30 points, anything goes)\n";
+    int diff = GetChoice(1, 3);
+    if (diff == 1)
+    {
+        pointsPerQuestion = 10;
+        maxDifficulty = 1;
+        difficultyName = "Easy";
+    }
+    else if (diff == 2)
+    {
+        pointsPerQuestion = 20;
+        maxDifficulty = 2;
+        difficultyName = "Medium";
+    }
+    else
+    {
+        pointsPerQuestion = 30;
+        maxDifficulty = 3;
+        difficultyName = "Hard";
+    }
 
     bool running = true;
     while (running)
@@ -105,7 +130,7 @@ void Game::PauseForEnter() const
 void Game::ShowMenu() const
 {
     std::cout << "\n------------ Main Menu ------------\n";
-    std::cout << "Player: " << playerName << "     Score: " << currentScore << "\n";
+    std::cout << "Player: " << playerName << "     Score: " << currentScore << "     Difficulty: " << difficultyName << "\n";
     std::cout << "1. View Elements\n";
     std::cout << "2. View Compounds\n";
     std::cout << "3. Guess It  (guess the compound from its formula)\n";
@@ -138,11 +163,21 @@ void Game::ViewCompounds() const
 // both game modes call this, so the random logic lives in one spot instead of being copied twice.
 const Compound& Game::GetRandomCompound() const
 {
+    // first gather the indexes of every compound that fits the chosen difficulty ceiling
+    std::vector<int> eligible;
+    for (int i = 0; i < (int)compounds.size(); i++)
+    {
+        if (compounds[i].GetDifficulty() <= maxDifficulty)
+        {
+            eligible.push_back(i);
+        }
+    }
+
     // one random engine, seeded once off the hardware, kept alive between calls with static
     static std::mt19937 engine(std::random_device{}());
-    // the distribution covers every valid index into my compound list
-    std::uniform_int_distribution<int> pick(0, (int)compounds.size() - 1);
-    return compounds[pick(engine)];   // hand back a reference to the chosen compound
+    // pick a random spot in the eligible list, then return that compound
+    std::uniform_int_distribution<int> pick(0, (int)eligible.size() - 1);
+    return compounds[eligible[pick(engine)]];
 }
 
 // the shared ending both game modes use once they know if the player was right.
