@@ -105,7 +105,7 @@ void Game::PauseForEnter() const
 void Game::ShowMenu() const
 {
     std::cout << "\n------------ Main Menu ------------\n";
-    std::cout << "Current score: " << currentScore << "\n";
+    std::cout << "Player: " << playerName << "     Score: " << currentScore << "\n";
     std::cout << "1. View Elements\n";
     std::cout << "2. View Compounds\n";
     std::cout << "3. Guess It  (guess the compound from its formula)\n";
