@@ -316,41 +316,99 @@ void Game::ViewElements() const
     }
 }
 
-// lists every compound and lets the player pick one to see its molecule drawn as an ascii diagram.
+// lists the compounds a page at a time and lets the player pick one to see its molecule.
 void Game::ViewCompounds() const
 {
+    const int perPage = 12;   // how many compounds to show on one page
+    int totalPages = ((int)compounds.size() + perPage - 1) / perPage;   // round up so the last few still get a page
+    int page = 0;             // which page we are on, starting at the first
+
     bool viewing = true;
     while (viewing)
     {
         ClearScreen();
-        std::cout << "--- Known Compounds ---\n";
-        for (size_t i = 0; i < compounds.size(); i++)
+
+        // work out the slice of compounds this page covers
+        int start = page * perPage;
+        int end = start + perPage;
+        if (end > (int)compounds.size())
+        {
+            end = (int)compounds.size();
+        }
+
+        std::cout << "--- Known Compounds (page " << (page + 1) << " of " << totalPages << ") ---\n";
+        for (int i = start; i < end; i++)
         {
             std::cout << (i + 1) << ". " << compounds[i].GetFormula() << "\t" << compounds[i].GetName() << "\n";
         }
 
-        std::cout << "\nEnter a compound number to see its molecule, or 0 to go back.\n";
-        int choice = GetChoice(0, (int)compounds.size());
+        // show the options.. next and previous only appear when there is actually a page to go to
+        std::cout << "\nEnter a compound number to see its molecule.\n";
+        if (page < totalPages - 1)
+        {
+            std::cout << "Enter n for the next page.\n";
+        }
+        if (page > 0)
+        {
+            std::cout << "Enter p for the previous page.\n";
+        }
+        std::cout << "Enter 0 to go back.\n";
+        std::cout << "Choice: ";
 
-        if (choice == 0)   // the player is done browsing
+        std::string input;
+        std::getline(std::cin, input);
+        std::string choice = Normalize(input);   // clean it up so n, N, and stray spaces all behave
+
+        if (choice == "0")   // done browsing
         {
             viewing = false;
         }
+        else if (choice == "n" && page < totalPages - 1)   // flip to the next page
+        {
+            page++;
+        }
+        else if (choice == "p" && page > 0)   // flip to the previous page
+        {
+            page--;
+        }
         else
         {
-            const Compound& c = compounds[choice - 1];   // the list is 1 based, the vector is 0 based
-            std::cout << "\n" << c.GetName() << "  (" << c.GetFormula() << ")\n";
-
-            std::vector<std::string> atoms = ParseFormula(c.GetFormula());
-            if (atoms.size() <= 10)   // small enough to draw neatly on one line
+            // otherwise try to read it as a compound number, building the number up from its digits
+            int number = 0;
+            bool allDigits = (choice.size() > 0);
+            for (char ch : choice)
             {
-                DrawMolecule(atoms);
+                if (isdigit((unsigned char)ch))
+                {
+                    number = number * 10 + (ch - '0');
+                }
+                else
+                {
+                    allDigits = false;
+                }
+            }
+
+            if (allDigits && number >= 1 && number <= (int)compounds.size())
+            {
+                const Compound& c = compounds[number - 1];   // the list is 1 based, the vector is 0 based
+                std::cout << "\n" << c.GetName() << "  (" << c.GetFormula() << ")\n";
+
+                std::vector<std::string> atoms = ParseFormula(c.GetFormula());
+                if (atoms.size() <= 10)   // small enough to draw neatly on one line
+                {
+                    DrawMolecule(atoms);
+                }
+                else
+                {
+                    std::cout << "This molecule has too many atoms to draw on one line.\n";
+                }
+                PauseForEnter();
             }
             else
             {
-                std::cout << "This molecule has too many atoms to draw on one line.\n";
+                std::cout << "That is not a valid choice.\n";
+                PauseForEnter();
             }
-            PauseForEnter();
         }
     }
 }
