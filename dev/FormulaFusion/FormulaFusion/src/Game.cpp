@@ -287,10 +287,32 @@ void Game::ShowMenu() const
 // list out every element i loaded, lined up in a little table
 void Game::ViewElements() const
 {
-    std::cout << "\n--- Element Table ---\n";
-    for (const Element& e : elements)   // range based loop, one Element at a time by const reference so nothing copies needlessly
+    const int perPage = 20;   // how many elements to show before pausing for the next page
+
+    for (size_t i = 0; i < elements.size(); i++)
     {
+        // at the top of each page, clear the screen and print a header showing the range on this page
+        if (i % perPage == 0)
+        {
+            ClearScreen();
+            size_t last = i + perPage;                // the element number this page runs up to
+            if (last > elements.size())               // do not run past the end of the list
+            {
+                last = elements.size();
+            }
+            std::cout << "--- Element Table (" << (i + 1) << " to " << last << " of " << elements.size() << ") ---\n";
+        }
+
+        const Element& e = elements[i];
         std::cout << e.GetAtomicNumber() << "\t" << e.GetSymbol() << "\t" << e.GetName() << "\n";
+
+        // at the end of a full page, if there are still more to come, wait before showing the next page
+        if ((i + 1) % perPage == 0 && (i + 1) < elements.size())
+        {
+            std::cout << "\nPress Enter for more...";
+            std::string dummy;
+            std::getline(std::cin, dummy);
+        }
     }
 }
 
