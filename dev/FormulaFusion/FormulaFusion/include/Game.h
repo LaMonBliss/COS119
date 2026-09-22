@@ -36,8 +36,11 @@ private:
     void ShowMenu() const;                  // prints the main menu options
     void ViewElements() const;              // lists every element i loaded
     void ViewCompounds() const;             // lists every compound with its formula
-    void GuessItMode();                     // show a formula, let the player guess the name
-    void BuildItMode();                     // name a compound, let the player assemble the formula
+    void GuessItMode();                     // runs a Guess It round (wrapper around PlayRound)
+    void BuildItMode();                     // runs a Build It round (wrapper around PlayRound)
+    void PlayRound(bool guessMode);         // plays a round of questions, either a set length or endless
+    bool AskGuessQuestion();                // asks one Guess It question, returns whether it was right
+    bool AskBuildQuestion();                // asks one Build It question, returns whether it was right
     void ShowResult(bool correct, const Compound& target, const std::string& missMessage);  // shared correct or miss ending for both modes
     void DrawMolecule(const std::vector<std::string>& atoms) const;  // draws the assembled atoms as an ascii molecule diagram
     int GetChoice(int min, int max) const;  // safe menu input, keeps asking until it is valid

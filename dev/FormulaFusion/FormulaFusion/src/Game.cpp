@@ -236,8 +236,97 @@ void Game::DrawMolecule(const std::vector<std::string>& atoms) const
     std::cout << top << "\n" << middle << "\n" << bottom << "\n";
 }
 
-// Guess It.. pick a random compound, show its formula, and see if the player knows the name
+// Guess It.. runs a whole round of guessing the compound from its formula
 void Game::GuessItMode()
+{
+    PlayRound(true);
+}
+
+// Build It.. runs a whole round of assembling the formula from elements
+void Game::BuildItMode()
+{
+    PlayRound(false);
+}
+
+// plays a round of one of the game modes. the player picks a quick five question round or an endless run,
+// and either way the questions are numbered and the round finishes with a little summary.
+// guessMode true means play Guess It, false means play Build It.
+void Game::PlayRound(bool guessMode)
+{
+    // ask how they want to play this round
+    std::cout << "\nHow do you want to play?\n";
+    std::cout << "1. Quick round (5 questions)\n";
+    std::cout << "2. Endless (until you stop)\n";
+    int choice = GetChoice(1, 2);
+
+    bool endless = (choice == 2);   // endless keeps going until the player chooses to stop
+    int total = 5;                  // how many questions a quick round runs
+
+    int questionNumber = 0;   // which question we are on
+    int gotRight = 0;         // how many they have gotten right this round
+    bool playing = true;
+
+    while (playing)
+    {
+        questionNumber++;
+
+        ClearScreen();
+        // show which question this is.. endless just counts up since there is no end total
+        if (endless)
+        {
+            std::cout << "Question " << questionNumber << "\n";
+        }
+        else
+        {
+            std::cout << "Question " << questionNumber << " of " << total << "\n";
+        }
+
+        // ask one question of whichever mode, and remember whether they nailed it
+        bool correct;
+        if (guessMode)
+        {
+            correct = AskGuessQuestion();
+        }
+        else
+        {
+            correct = AskBuildQuestion();
+        }
+        if (correct)
+        {
+            gotRight++;
+        }
+
+        // now decide whether the round keeps going
+        if (endless)
+        {
+            std::cout << "\nPress Enter for another question, or type q to stop: ";
+            std::string answer;
+            std::getline(std::cin, answer);
+            if (Normalize(answer) == "q")   // they want to head back to the menu
+            {
+                playing = false;
+            }
+        }
+        else
+        {
+            if (questionNumber >= total)   // finished the whole set round
+            {
+                playing = false;
+            }
+            else
+            {
+                PauseForEnter();   // let them read the result before the next question clears the screen
+            }
+        }
+    }
+
+    // wrap the round up with a quick summary
+    std::cout << "\nRound over! You got " << gotRight << " right. Total score: " << currentScore << ".\n";
+}
+
+// asks one Guess It question.. pick a random compound, show its formula, and see if the player knows the name.
+// returns whether they got it right so the round can keep a tally.
+bool Game::AskGuessQuestion()
 {
     const Compound& target = GetRandomCompound();   // grab a random compound to quiz the player on
 
@@ -255,10 +344,12 @@ void Game::GuessItMode()
     // did they get it? then hand the result off to the shared ending, with my own miss message
     bool correct = (Normalize(guess) == Normalize(target.GetName()));
     ShowResult(correct, target, "Not quite. That formula is " + target.GetName() + ".");
+    return correct;
 }
 
-// Build It.. name a compound, then let the player assemble its formula one element at a time.
-void Game::BuildItMode()
+// asks one Build It question.. name a compound, then let the player assemble its formula one element at a time.
+// returns whether the formula they built matched, so the round can keep a tally.
+bool Game::AskBuildQuestion()
 {
     const Compound& target = GetRandomCompound();   // grab a random compound for the player to build
 
@@ -333,6 +424,7 @@ void Game::BuildItMode()
     // check what they built against the real formula, then use the shared ending with my own miss message
     bool correct = (built == target.GetFormula());
     ShowResult(correct, target, "Not quite. " + target.GetName() + " is " + target.GetFormula() + ".");
+    return correct;
 }
 
 // keeps asking until the player types a whole number inside the range i pass in
