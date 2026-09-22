@@ -22,7 +22,8 @@ public:
 private:
     std::vector<Element> elements;     // my subset of the periodic table
     std::vector<Compound> compounds;   // the compounds the player can learn and guess
-    int currentScore = 0;              // how many the player has gotten right this session
+    int currentScore = 0;              // the player's running points this session
+    int pointsPerQuestion = 10;        // how many points a correct answer is worth, difficulty can change this later
     std::vector<Highscore> highScores; // the saved leaderboard, loaded from and written back to a file
     std::string highScoreFile = "highscores.txt";  // the file the high scores live in
     std::string playerName;            // the name the player gives at the start, used when saving their score
