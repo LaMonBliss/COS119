@@ -153,13 +153,15 @@ void Game::ShowResult(bool correct, const Compound& target, const std::string& m
     if (correct)
     {
         currentScore += pointsPerQuestion;   // award the points this question was worth
-        std::cout << "Correct! You earned " << pointsPerQuestion << " points. " << target.GetFact() << "\n";
+        std::cout << "Correct! You earned " << pointsPerQuestion << " points.\n";
     }
     else
     {
-        std::cout << missMessage << "\n";                                   // the mode's own wording for a wrong answer
-        std::cout << "No points that time. " << target.GetFact() << "\n";   // no points, but still share the fun fact
+        std::cout << missMessage << "\n";        // the mode's own wording for a wrong answer
+        std::cout << "No points that time.\n";
     }
+
+    std::cout << target.GetFact() << "\n";   // the fun fact is always the last thing shown, on its own line
 }
 
 // draws the atoms the player has added so far as a little ascii molecule diagram.
@@ -205,7 +207,7 @@ void Game::GuessItMode()
     const Compound& target = GetRandomCompound();   // grab a random compound to quiz the player on
 
     std::cout << "\n--- Guess It ---\n";
-    std::cout << "This one is worth " << pointsPerQuestion << " points.\n";
+    std::cout << pointsPerQuestion << " points\n";
     std::cout << "What compound has the formula " << target.GetFormula() << " ?\n";
     std::cout << "Your guess: ";
 
@@ -226,7 +228,7 @@ void Game::BuildItMode()
     const Compound& target = GetRandomCompound();   // grab a random compound for the player to build
 
     std::cout << "\n--- Build It ---\n";
-    std::cout << "This one is worth " << pointsPerQuestion << " points.\n";
+    std::cout << pointsPerQuestion << " points\n";
     std::cout << "Build this compound: " << target.GetName() << "\n";
 
     // show the player which symbols they have to work with
