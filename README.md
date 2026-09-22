@@ -117,3 +117,41 @@ helpers instead of leaving it copy pasted.
 
 Before Week 4 I want to keep refining, sort the high scores so the best one shows first, and
 maybe add a few more compounds so there is more variety to play with.
+
+### Milestone 4
+
+**Overview**
+
+This was the final week, and I went big. I turned Formula Fusion from a simple quiz into a full
+game with progression, difficulty, and a real content library, while keeping the code clean as it
+grew.
+
+**Improvements**
+
+I added the player name and score to the header, a real points per question system, and a
+difficulty select that changes both the points and which compounds show up. I gave both game modes
+quick and endless rounds with numbered questions and a round summary, so it is no longer one
+question and back to the menu. I made View Compounds interactive so you can pick a compound and see
+its molecule drawn as an ASCII diagram. And I loaded the whole content library, all 118 elements of
+the periodic table and 34 compounds across the difficulty levels. On the code side I split each
+mode into a single question helper and wrote one shared round runner they both call, and I added a
+formula parser so the molecule viewer could reuse my existing drawing helper.
+
+**Challenges**
+
+The main challenge was adding a lot of features fast without turning the Game class into a mess. I
+kept it under control by pulling shared logic into helpers like the round runner and the formula
+parser. Some smaller puzzles came up too, like raising the build count cap so big molecules like
+sucrose could still be built, and guarding the molecule drawing so huge molecules do not spill off
+the screen.
+
+**Accomplishments**
+
+I leveled up on structuring a program as it grows. Splitting the modes into small helpers and
+sharing one round runner made adding features feel clean instead of chaotic, and writing my own
+formula parser with plain character math was a good exercise in breaking a problem down.
+
+**Next Steps**
+
+The core game is complete. My last steps are final polish, like paging the long element list, and
+putting together the showcase presentation to demo everything the game can do.
