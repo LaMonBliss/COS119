@@ -15,21 +15,166 @@ Game::Game()
 // fill the element table and the compound list.. hardcoded for now, i can move this out to a file later
 void Game::LoadData()
 {
-    // a small slice of the periodic table, enough to cover my starting compounds
+    // the full periodic table, all 118 elements with their symbol, name, and atomic number
     elements.push_back(Element("H", "Hydrogen", 1));
+    elements.push_back(Element("He", "Helium", 2));
+    elements.push_back(Element("Li", "Lithium", 3));
+    elements.push_back(Element("Be", "Beryllium", 4));
+    elements.push_back(Element("B", "Boron", 5));
     elements.push_back(Element("C", "Carbon", 6));
     elements.push_back(Element("N", "Nitrogen", 7));
     elements.push_back(Element("O", "Oxygen", 8));
+    elements.push_back(Element("F", "Fluorine", 9));
+    elements.push_back(Element("Ne", "Neon", 10));
     elements.push_back(Element("Na", "Sodium", 11));
+    elements.push_back(Element("Mg", "Magnesium", 12));
+    elements.push_back(Element("Al", "Aluminum", 13));
+    elements.push_back(Element("Si", "Silicon", 14));
+    elements.push_back(Element("P", "Phosphorus", 15));
+    elements.push_back(Element("S", "Sulfur", 16));
     elements.push_back(Element("Cl", "Chlorine", 17));
+    elements.push_back(Element("Ar", "Argon", 18));
+    elements.push_back(Element("K", "Potassium", 19));
+    elements.push_back(Element("Ca", "Calcium", 20));
+    elements.push_back(Element("Sc", "Scandium", 21));
+    elements.push_back(Element("Ti", "Titanium", 22));
+    elements.push_back(Element("V", "Vanadium", 23));
+    elements.push_back(Element("Cr", "Chromium", 24));
+    elements.push_back(Element("Mn", "Manganese", 25));
+    elements.push_back(Element("Fe", "Iron", 26));
+    elements.push_back(Element("Co", "Cobalt", 27));
+    elements.push_back(Element("Ni", "Nickel", 28));
+    elements.push_back(Element("Cu", "Copper", 29));
+    elements.push_back(Element("Zn", "Zinc", 30));
+    elements.push_back(Element("Ga", "Gallium", 31));
+    elements.push_back(Element("Ge", "Germanium", 32));
+    elements.push_back(Element("As", "Arsenic", 33));
+    elements.push_back(Element("Se", "Selenium", 34));
+    elements.push_back(Element("Br", "Bromine", 35));
+    elements.push_back(Element("Kr", "Krypton", 36));
+    elements.push_back(Element("Rb", "Rubidium", 37));
+    elements.push_back(Element("Sr", "Strontium", 38));
+    elements.push_back(Element("Y", "Yttrium", 39));
+    elements.push_back(Element("Zr", "Zirconium", 40));
+    elements.push_back(Element("Nb", "Niobium", 41));
+    elements.push_back(Element("Mo", "Molybdenum", 42));
+    elements.push_back(Element("Tc", "Technetium", 43));
+    elements.push_back(Element("Ru", "Ruthenium", 44));
+    elements.push_back(Element("Rh", "Rhodium", 45));
+    elements.push_back(Element("Pd", "Palladium", 46));
+    elements.push_back(Element("Ag", "Silver", 47));
+    elements.push_back(Element("Cd", "Cadmium", 48));
+    elements.push_back(Element("In", "Indium", 49));
+    elements.push_back(Element("Sn", "Tin", 50));
+    elements.push_back(Element("Sb", "Antimony", 51));
+    elements.push_back(Element("Te", "Tellurium", 52));
+    elements.push_back(Element("I", "Iodine", 53));
+    elements.push_back(Element("Xe", "Xenon", 54));
+    elements.push_back(Element("Cs", "Cesium", 55));
+    elements.push_back(Element("Ba", "Barium", 56));
+    elements.push_back(Element("La", "Lanthanum", 57));
+    elements.push_back(Element("Ce", "Cerium", 58));
+    elements.push_back(Element("Pr", "Praseodymium", 59));
+    elements.push_back(Element("Nd", "Neodymium", 60));
+    elements.push_back(Element("Pm", "Promethium", 61));
+    elements.push_back(Element("Sm", "Samarium", 62));
+    elements.push_back(Element("Eu", "Europium", 63));
+    elements.push_back(Element("Gd", "Gadolinium", 64));
+    elements.push_back(Element("Tb", "Terbium", 65));
+    elements.push_back(Element("Dy", "Dysprosium", 66));
+    elements.push_back(Element("Ho", "Holmium", 67));
+    elements.push_back(Element("Er", "Erbium", 68));
+    elements.push_back(Element("Tm", "Thulium", 69));
+    elements.push_back(Element("Yb", "Ytterbium", 70));
+    elements.push_back(Element("Lu", "Lutetium", 71));
+    elements.push_back(Element("Hf", "Hafnium", 72));
+    elements.push_back(Element("Ta", "Tantalum", 73));
+    elements.push_back(Element("W", "Tungsten", 74));
+    elements.push_back(Element("Re", "Rhenium", 75));
+    elements.push_back(Element("Os", "Osmium", 76));
+    elements.push_back(Element("Ir", "Iridium", 77));
+    elements.push_back(Element("Pt", "Platinum", 78));
+    elements.push_back(Element("Au", "Gold", 79));
+    elements.push_back(Element("Hg", "Mercury", 80));
+    elements.push_back(Element("Tl", "Thallium", 81));
+    elements.push_back(Element("Pb", "Lead", 82));
+    elements.push_back(Element("Bi", "Bismuth", 83));
+    elements.push_back(Element("Po", "Polonium", 84));
+    elements.push_back(Element("At", "Astatine", 85));
+    elements.push_back(Element("Rn", "Radon", 86));
+    elements.push_back(Element("Fr", "Francium", 87));
+    elements.push_back(Element("Ra", "Radium", 88));
+    elements.push_back(Element("Ac", "Actinium", 89));
+    elements.push_back(Element("Th", "Thorium", 90));
+    elements.push_back(Element("Pa", "Protactinium", 91));
+    elements.push_back(Element("U", "Uranium", 92));
+    elements.push_back(Element("Np", "Neptunium", 93));
+    elements.push_back(Element("Pu", "Plutonium", 94));
+    elements.push_back(Element("Am", "Americium", 95));
+    elements.push_back(Element("Cm", "Curium", 96));
+    elements.push_back(Element("Bk", "Berkelium", 97));
+    elements.push_back(Element("Cf", "Californium", 98));
+    elements.push_back(Element("Es", "Einsteinium", 99));
+    elements.push_back(Element("Fm", "Fermium", 100));
+    elements.push_back(Element("Md", "Mendelevium", 101));
+    elements.push_back(Element("No", "Nobelium", 102));
+    elements.push_back(Element("Lr", "Lawrencium", 103));
+    elements.push_back(Element("Rf", "Rutherfordium", 104));
+    elements.push_back(Element("Db", "Dubnium", 105));
+    elements.push_back(Element("Sg", "Seaborgium", 106));
+    elements.push_back(Element("Bh", "Bohrium", 107));
+    elements.push_back(Element("Hs", "Hassium", 108));
+    elements.push_back(Element("Mt", "Meitnerium", 109));
+    elements.push_back(Element("Ds", "Darmstadtium", 110));
+    elements.push_back(Element("Rg", "Roentgenium", 111));
+    elements.push_back(Element("Cn", "Copernicium", 112));
+    elements.push_back(Element("Nh", "Nihonium", 113));
+    elements.push_back(Element("Fl", "Flerovium", 114));
+    elements.push_back(Element("Mc", "Moscovium", 115));
+    elements.push_back(Element("Lv", "Livermorium", 116));
+    elements.push_back(Element("Ts", "Tennessine", 117));
+    elements.push_back(Element("Og", "Oganesson", 118));
 
-    // the compounds the player can view and guess.. name, formula, a quick fact, and a difficulty (1 to 3)
+    // the compounds the player can view, guess, and build.. name, formula, a quick fact, and a difficulty (1 to 3)
+    // difficulty 1 is easy and common with small formulas
     compounds.push_back(Compound("Water", "H2O", "Covers about 71 percent of the earth's surface.", 1));
     compounds.push_back(Compound("Carbon Dioxide", "CO2", "What we breathe out and plants breathe in.", 1));
     compounds.push_back(Compound("Table Salt", "NaCl", "The salt sitting on your kitchen table.", 1));
-    compounds.push_back(Compound("Ammonia", "NH3", "That sharp smell in a lot of cleaning products.", 2));
-    compounds.push_back(Compound("Methane", "CH4", "The main ingredient in natural gas.", 2));
-    compounds.push_back(Compound("Hydrogen Peroxide", "H2O2", "The stuff that bubbles up on a cut.", 3));
+    compounds.push_back(Compound("Oxygen Gas", "O2", "The gas your lungs pull out of every breath.", 1));
+    compounds.push_back(Compound("Hydrogen Gas", "H2", "The lightest and most common element in the universe.", 1));
+    compounds.push_back(Compound("Nitrogen Gas", "N2", "Makes up about 78 percent of the air you breathe.", 1));
+    compounds.push_back(Compound("Carbon Monoxide", "CO", "A silent, colorless gas that is dangerous to breathe.", 1));
+    compounds.push_back(Compound("Methane", "CH4", "The main ingredient in natural gas.", 1));
+    compounds.push_back(Compound("Ammonia", "NH3", "That sharp smell in a lot of cleaning products.", 1));
+
+    // difficulty 2 is common but a step up
+    compounds.push_back(Compound("Hydrochloric Acid", "HCl", "The strong acid your stomach uses to digest food.", 2));
+    compounds.push_back(Compound("Sodium Hydroxide", "NaOH", "Also known as lye, used to make soap.", 2));
+    compounds.push_back(Compound("Hydrogen Peroxide", "H2O2", "The stuff that bubbles up on a cut.", 2));
+    compounds.push_back(Compound("Sulfuric Acid", "H2SO4", "A powerful acid used in car batteries.", 2));
+    compounds.push_back(Compound("Calcium Carbonate", "CaCO3", "What chalk, limestone, and seashells are made of.", 2));
+    compounds.push_back(Compound("Sodium Bicarbonate", "NaHCO3", "Baking soda, the stuff that makes cookies rise.", 2));
+    compounds.push_back(Compound("Ozone", "O3", "The gas high up that shields us from the sun's rays.", 2));
+    compounds.push_back(Compound("Sulfur Dioxide", "SO2", "A sharp smelling gas released by volcanoes.", 2));
+    compounds.push_back(Compound("Nitrous Oxide", "N2O", "Also called laughing gas at the dentist.", 2));
+    compounds.push_back(Compound("Potassium Chloride", "KCl", "A salt substitute and a source of potassium.", 2));
+    compounds.push_back(Compound("Calcium Oxide", "CaO", "Called quicklime, used to make cement.", 2));
+    compounds.push_back(Compound("Nitric Acid", "HNO3", "A strong acid used to make fertilizers.", 2));
+    compounds.push_back(Compound("Methanol", "CH4O", "A simple alcohol, but very toxic to drink.", 2));
+
+    // difficulty 3 is complex, organic, or less common
+    compounds.push_back(Compound("Glucose", "C6H12O6", "The sugar your body burns for energy.", 3));
+    compounds.push_back(Compound("Sucrose", "C12H22O11", "Regular table sugar.", 3));
+    compounds.push_back(Compound("Ethanol", "C2H6O", "The alcohol found in beer and wine.", 3));
+    compounds.push_back(Compound("Acetic Acid", "C2H4O2", "What gives vinegar its sour taste.", 3));
+    compounds.push_back(Compound("Octane", "C8H18", "A big part of what fuels your car.", 3));
+    compounds.push_back(Compound("Benzene", "C6H6", "A ring shaped molecule used to make plastics.", 3));
+    compounds.push_back(Compound("Sodium Carbonate", "Na2CO3", "Washing soda, used in glass and detergents.", 3));
+    compounds.push_back(Compound("Potassium Permanganate", "KMnO4", "A deep purple crystal used to treat water.", 3));
+    compounds.push_back(Compound("Iron Oxide", "Fe2O3", "Just a fancy name for rust.", 3));
+    compounds.push_back(Compound("Ammonium Chloride", "NH4Cl", "A salt used in some batteries and licorice candy.", 3));
+    compounds.push_back(Compound("Silicon Dioxide", "SiO2", "What sand and quartz are made of.", 3));
+    compounds.push_back(Compound("Phosphoric Acid", "H3PO4", "The tangy acid in a lot of sodas.", 3));
 }
 
 // the main loop.. show the menu, grab a valid choice, do the thing, then repeat until they quit
@@ -355,20 +500,10 @@ bool Game::AskBuildQuestion()
 
     std::cout << "\n--- Build It ---\n";
     std::cout << pointsPerQuestion << " points\n";
-    std::cout << "Build this compound: " << target.GetName() << "\n";
-
-    // show the player which symbols they have to work with
-    std::cout << "Available elements: ";
-    for (size_t i = 0; i < elements.size(); i++)
-    {
-        std::cout << elements[i].GetSymbol();
-        if (i < elements.size() - 1)   // comma between them, but not after the last one
-        {
-            std::cout << ", ";
-        }
-    }
-    std::cout << "\n\n";
-    std::cout << "Add elements to your formula, one at a time. Type 'done' when finished.\n";
+    std::cout << "Build this compound: " << target.GetName() << "\n\n";
+    // with the full periodic table loaded there are too many symbols to list, so i just explain how to enter them
+    std::cout << "Add elements one at a time using their symbols, like H or Na.\n";
+    std::cout << "Type done when you are finished.\n";
 
     std::string built;                  // the formula the player is assembling, starts empty
     std::vector<std::string> atoms;     // every atom added in order, so i can draw the molecule as it grows
@@ -392,7 +527,7 @@ bool Game::AskBuildQuestion()
             continue;   // skip the rest of the loop and ask again
         }
 
-        int count = GetCount(1, 20);   // how many of this element, validated
+        int count = GetCount(1, 30);   // how many of this element, validated (30 covers even big molecules)
 
         // add the element's REAL symbol (proper casing from our data), not whatever the player typed
         built += found->GetSymbol();
