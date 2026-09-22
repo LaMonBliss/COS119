@@ -91,13 +91,14 @@ you do and remembers it between runs.
 
 **Improvements**
 
-I added a scoring system that tracks correct answers and shows the current score in the menu.
-I added saving and loading high scores to a file, plus a View High Scores option, so the
-leaderboard carries over between runs. I also added an ASCII molecule diagram to Build It that
-draws the compound as boxed atoms wired together, growing live as the player adds each element.
-On the code quality side I did two refactors, pulling the duplicated random compound pick into a
-shared GetRandomCompound helper, and pulling the shared correct or miss ending out of both modes
-into a ShowResult helper.
+I added a scoring system that tracks correct answers and shows the current score in the menu. I
+turned my high scores into a real leaderboard that asks the player for their name up front, ranks
+the scores best first, keeps a top ten, and saves and loads them from a file so they carry over
+between runs. I added an ASCII molecule diagram to Build It that draws the compound as boxed atoms
+wired together, growing live as the player adds each element. I also cleaned up the console so it
+clears between menus instead of scrolling forever. On the code quality side I did two refactors,
+pulling the duplicated random compound pick into a shared GetRandomCompound helper, and pulling the
+shared correct or miss ending out of both modes into a ShowResult helper.
 
 **Challenges**
 
