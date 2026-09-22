@@ -4,6 +4,13 @@
 #include "Element.h"
 #include "Compound.h"
 
+// one high score entry.. just a player name and the score they earned that session
+struct Highscore
+{
+    std::string name;
+    int score;
+};
+
 // the Game class is the heart of Formula Fusion.. it owns all the data and runs the
 // whole menu loop. main stays tiny and just tells this class to go.
 class Game
@@ -15,15 +22,28 @@ public:
 private:
     std::vector<Element> elements;     // my subset of the periodic table
     std::vector<Compound> compounds;   // the compounds the player can learn and guess
+    int currentScore = 0;              // how many the player has gotten right this session
+    std::vector<Highscore> highScores; // the saved leaderboard, loaded from and written back to a file
+    std::string highScoreFile = "highscores.txt";  // the file the high scores live in
+    std::string playerName;            // the name the player gives at the start, used when saving their score
 
     void LoadData();                        // fills the two vectors above with the starting set
+    void ClearScreen() const;               // wipes the console so each screen starts fresh instead of scrolling
+    void PauseForEnter() const;             // waits for Enter so the player can read the screen before it clears
     void ShowMenu() const;                  // prints the main menu options
     void ViewElements() const;              // lists every element i loaded
     void ViewCompounds() const;             // lists every compound with its formula
     void GuessItMode();                     // show a formula, let the player guess the name
-    void BuildItMode();                     // placeholder for the next milestone
+    void BuildItMode();                     // name a compound, let the player assemble the formula
+    void ShowResult(bool correct, const Compound& target, const std::string& missMessage);  // shared correct or miss ending for both modes
+    void DrawMolecule(const std::vector<std::string>& atoms) const;  // draws the assembled atoms as an ascii molecule diagram
     int GetChoice(int min, int max) const;  // safe menu input, keeps asking until it is valid
     int GetCount(int min, int max) const;   // reads a whole number count for Build It, line based
     std::string Normalize(const std::string& text) const;  // lowercases and strips spaces/special chars so guesses are forgiving
     const Element* FindElement(const std::string& symbol) const;  // looks up an element by symbol, or nullptr if we do not have it
+    const Compound& GetRandomCompound() const;  // picks one random compound, shared by both game modes
+    void LoadHighScores();                      // reads saved high scores from the file on startup
+    void SaveHighScores() const;                // writes the high scores back out to the file
+    void ViewHighScores() const;                // prints the saved high scores
+    void SortAndCapHighScores();                // ranks the high scores best first and keeps only the top 10
 };
