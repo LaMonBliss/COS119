@@ -294,13 +294,42 @@ void Game::ViewElements() const
     }
 }
 
-// list out every compound with its formula so the player can study up before guessing
+// lists every compound and lets the player pick one to see its molecule drawn as an ascii diagram.
 void Game::ViewCompounds() const
 {
-    std::cout << "\n--- Known Compounds ---\n";
-    for (const Compound& c : compounds)
+    bool viewing = true;
+    while (viewing)
     {
-        std::cout << c.GetFormula() << "\t" << c.GetName() << "\n";
+        ClearScreen();
+        std::cout << "--- Known Compounds ---\n";
+        for (size_t i = 0; i < compounds.size(); i++)
+        {
+            std::cout << (i + 1) << ". " << compounds[i].GetFormula() << "\t" << compounds[i].GetName() << "\n";
+        }
+
+        std::cout << "\nEnter a compound number to see its molecule, or 0 to go back.\n";
+        int choice = GetChoice(0, (int)compounds.size());
+
+        if (choice == 0)   // the player is done browsing
+        {
+            viewing = false;
+        }
+        else
+        {
+            const Compound& c = compounds[choice - 1];   // the list is 1 based, the vector is 0 based
+            std::cout << "\n" << c.GetName() << "  (" << c.GetFormula() << ")\n";
+
+            std::vector<std::string> atoms = ParseFormula(c.GetFormula());
+            if (atoms.size() <= 10)   // small enough to draw neatly on one line
+            {
+                DrawMolecule(atoms);
+            }
+            else
+            {
+                std::cout << "This molecule has too many atoms to draw on one line.\n";
+            }
+            PauseForEnter();
+        }
     }
 }
 
@@ -379,6 +408,52 @@ void Game::DrawMolecule(const std::vector<std::string>& atoms) const
     }
 
     std::cout << top << "\n" << middle << "\n" << bottom << "\n";
+}
+
+// turns a formula string like H2O or C6H12O6 into a list of individual atoms so it can be drawn.
+// it walks the string reading a symbol (an uppercase letter plus an optional lowercase one),
+// then any digits after it as the count, and adds that symbol to the list that many times.
+std::vector<std::string> Game::ParseFormula(const std::string& formula) const
+{
+    std::vector<std::string> atoms;
+
+    size_t i = 0;
+    while (i < formula.size())
+    {
+        // a symbol always starts with the current character, an uppercase letter
+        std::string symbol;
+        symbol += formula[i];
+        i++;
+
+        // a lowercase letter right after belongs to the same symbol, like the l in Cl
+        if (i < formula.size() && islower((unsigned char)formula[i]))
+        {
+            symbol += formula[i];
+            i++;
+        }
+
+        // read any digits right after the symbol and build them into the count
+        int count = 0;
+        bool hasDigits = false;
+        while (i < formula.size() && isdigit((unsigned char)formula[i]))
+        {
+            count = count * 10 + (formula[i] - '0');   // shift the running number over and add the new digit
+            hasDigits = true;
+            i++;
+        }
+        if (!hasDigits)   // no number written means there is just one of this element
+        {
+            count = 1;
+        }
+
+        // add this symbol once for each atom it represents
+        for (int k = 0; k < count; k++)
+        {
+            atoms.push_back(symbol);
+        }
+    }
+
+    return atoms;
 }
 
 // Guess It.. runs a whole round of guessing the compound from its formula
