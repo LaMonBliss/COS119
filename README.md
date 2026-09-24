@@ -131,8 +131,8 @@ grew.
 I added the player name and score to the header, a real points per question system, and a
 difficulty select that changes both the points and which compounds show up. I gave both game modes
 quick and endless rounds with numbered questions and a round summary, so it is no longer one
-question and back to the menu. I made View Compounds interactive so you can pick a compound and see
-its molecule drawn as an ASCII diagram. And I loaded the whole content library, all 118 elements of
+question and back to the menu. I made both view screens interactive so you can
+pick a compound and see its molecule, or pick an element and see it drawn as a single atom. And I loaded the whole content library, all 118 elements of
 the periodic table and 34 compounds across the difficulty levels. On the code side I split each
 mode into a single question helper and wrote one shared round runner they both call, and I added a
 formula parser so the molecule viewer could reuse my existing drawing helper.

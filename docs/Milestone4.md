@@ -29,18 +29,19 @@ they stop. Either way the questions are numbered, and each round ends with a sum
 they got right and their total score.
 
 **ASCII molecule viewer**
-View Compounds is now interactive. The player picks a compound from the list and the game draws
-its molecule as an ASCII diagram, boxed atoms wired together with bonds. Molecules that are too
-big to fit on one line show a note instead of a broken diagram.
+Both view screens are now interactive. In View Compounds the player picks a compound and the game
+draws its molecule as an ASCII diagram, boxed atoms wired together with bonds, and molecules too
+big to fit on one line show a note instead of a broken diagram. In View Elements the player picks
+an element and sees it drawn as a single boxed atom, so the ASCII visuals show up in both places.
 
 **A full content library**
 The game now loads all 118 elements of the periodic table and a library of 34 compounds spread
 across the three difficulty levels, all with real formulas and fun facts.
 
 **Title screen and paging polish**
-The game now opens on an ASCII title screen showing the game name and a little water molecule. The
-long lists are paged as well, so View Elements shows twenty at a time and View Compounds shows a
-page at a time with next and previous navigation, instead of running off the bottom of the screen.
+The game now opens on an ASCII title screen showing the game name and a little water molecule. Both
+long lists are paged too, with next and previous navigation, so View Elements and View Compounds
+move a page at a time instead of running off the bottom of the screen.
 
 ## Updates to System Design
 
