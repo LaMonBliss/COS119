@@ -297,31 +297,91 @@ void Game::ShowMenu() const
 // list out every element i loaded, lined up in a little table
 void Game::ViewElements() const
 {
-    const int perPage = 20;   // how many elements to show before pausing for the next page
+    const int perPage = 20;   // how many elements to show on one page
+    int totalPages = ((int)elements.size() + perPage - 1) / perPage;   // round up so the last few still get a page
+    int page = 0;             // which page we are on, starting at the first
 
-    for (size_t i = 0; i < elements.size(); i++)
+    bool viewing = true;
+    while (viewing)
     {
-        // at the top of each page, clear the screen and print a header showing the range on this page
-        if (i % perPage == 0)
+        ClearScreen();
+
+        // work out the slice of elements this page covers
+        int start = page * perPage;
+        int end = start + perPage;
+        if (end > (int)elements.size())
         {
-            ClearScreen();
-            size_t last = i + perPage;                // the element number this page runs up to
-            if (last > elements.size())               // do not run past the end of the list
-            {
-                last = elements.size();
-            }
-            std::cout << "--- Element Table (" << (i + 1) << " to " << last << " of " << elements.size() << ") ---\n";
+            end = (int)elements.size();
         }
 
-        const Element& e = elements[i];
-        std::cout << e.GetAtomicNumber() << "\t" << e.GetSymbol() << "\t" << e.GetName() << "\n";
-
-        // at the end of a full page, if there are still more to come, wait before showing the next page
-        if ((i + 1) % perPage == 0 && (i + 1) < elements.size())
+        std::cout << "--- Element Table (page " << (page + 1) << " of " << totalPages << ") ---\n";
+        for (int i = start; i < end; i++)
         {
-            std::cout << "\nPress Enter for more...";
-            std::string dummy;
-            std::getline(std::cin, dummy);
+            std::cout << elements[i].GetAtomicNumber() << "\t" << elements[i].GetSymbol() << "\t" << elements[i].GetName() << "\n";
+        }
+
+        // show the options.. next and previous only appear when there is actually a page to go to
+        std::cout << "\nEnter an element number to see it drawn as an atom.\n";
+        if (page < totalPages - 1)
+        {
+            std::cout << "Enter n for the next page.\n";
+        }
+        if (page > 0)
+        {
+            std::cout << "Enter p for the previous page.\n";
+        }
+        std::cout << "Enter 0 to go back.\n";
+        std::cout << "Choice: ";
+
+        std::string input;
+        std::getline(std::cin, input);
+        std::string choice = Normalize(input);   // clean it up so n, N, and stray spaces all behave
+
+        if (choice == "0")   // done browsing
+        {
+            viewing = false;
+        }
+        else if (choice == "n" && page < totalPages - 1)   // flip to the next page
+        {
+            page++;
+        }
+        else if (choice == "p" && page > 0)   // flip to the previous page
+        {
+            page--;
+        }
+        else
+        {
+            // otherwise try to read it as an element number, building the number up from its digits
+            int number = 0;
+            bool allDigits = (choice.size() > 0);
+            for (char ch : choice)
+            {
+                if (isdigit((unsigned char)ch))
+                {
+                    number = number * 10 + (ch - '0');
+                }
+                else
+                {
+                    allDigits = false;
+                }
+            }
+
+            if (allDigits && number >= 1 && number <= (int)elements.size())
+            {
+                const Element& e = elements[number - 1];   // the elements are in order, so number lines up with index plus one
+                std::cout << "\n" << e.GetName() << " (atomic number " << e.GetAtomicNumber() << ")\n";
+
+                // draw the single element as one boxed atom, reusing the molecule drawer with a list of one
+                std::vector<std::string> atom;
+                atom.push_back(e.GetSymbol());
+                DrawMolecule(atom);
+                PauseForEnter();
+            }
+            else
+            {
+                std::cout << "That is not a valid choice.\n";
+                PauseForEnter();
+            }
         }
     }
 }
