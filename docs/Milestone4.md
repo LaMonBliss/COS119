@@ -37,6 +37,11 @@ big to fit on one line show a note instead of a broken diagram.
 The game now loads all 118 elements of the periodic table and a library of 34 compounds spread
 across the three difficulty levels, all with real formulas and fun facts.
 
+**Title screen and paging polish**
+The game now opens on an ASCII title screen showing the game name and a little water molecule. The
+long lists are paged as well, so View Elements shows twenty at a time and View Compounds shows a
+page at a time with next and previous navigation, instead of running off the bottom of the screen.
+
 ## Updates to System Design
 
 - Compound gained a difficulty field with a matching getter.

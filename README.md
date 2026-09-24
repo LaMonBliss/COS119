@@ -151,7 +151,11 @@ I leveled up on structuring a program as it grows. Splitting the modes into smal
 sharing one round runner made adding features feel clean instead of chaotic, and writing my own
 formula parser with plain character math was a good exercise in breaking a problem down.
 
+I also finished the polish this week. The game opens on an ASCII title screen, and the long lists
+are now paged, View Elements shows twenty at a time and View Compounds pages through with next and
+previous navigation, so nothing runs off the screen.
+
 **Next Steps**
 
-The core game is complete. My last steps are final polish, like paging the long element list, and
-putting together the showcase presentation to demo everything the game can do.
+The core game is complete and polished. My last step is putting together the showcase presentation
+to demo everything the game can do, then the final submission.
