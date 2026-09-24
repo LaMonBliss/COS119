@@ -32,6 +32,7 @@ private:
 
     void LoadData();                        // fills the two vectors above with the starting set
     void ClearScreen() const;               // wipes the console so each screen starts fresh instead of scrolling
+    void ShowTitleScreen() const;           // prints the ascii title screen when the game first starts
     void PauseForEnter() const;             // waits for Enter so the player can read the screen before it clears
     void ShowMenu() const;                  // prints the main menu options
     void ViewElements() const;              // lists every element i loaded

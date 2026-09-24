@@ -180,12 +180,9 @@ void Game::LoadData()
 // the main loop.. show the menu, grab a valid choice, do the thing, then repeat until they quit
 void Game::Run()
 {
-    // greet the player and grab their name once, up front, so every high score they earn is saved under it
-    ClearScreen();
-    std::cout << "=====================================\n";
-    std::cout << "        Welcome to Formula Fusion\n";
-    std::cout << "=====================================\n";
-    std::cout << "\nWhat is your player name? ";
+    // show the title screen, then grab the player's name once up front so every high score saves under it
+    ShowTitleScreen();
+    std::cout << "What is your player name? ";
     std::getline(std::cin, playerName);
 
     // let the player pick a difficulty, which sets both the points per question and how tough the compounds get
@@ -260,6 +257,19 @@ void Game::Run()
 void Game::ClearScreen() const
 {
     system("cls");   // cls is the windows command that wipes the console
+}
+
+// prints the title screen with a little ascii banner and a water molecule when the game first starts.
+void Game::ShowTitleScreen() const
+{
+    ClearScreen();
+    std::cout << "================================================\n";
+    std::cout << "         F O R M U L A   F U S I O N\n";
+    std::cout << "================================================\n\n";
+    std::cout << "        +----+     +----+     +----+\n";
+    std::cout << "        | H  |-----| O  |-----| H  |\n";
+    std::cout << "        +----+     +----+     +----+\n\n";
+    std::cout << "           a console chemistry game\n\n";
 }
 
 // holds the screen until the player presses Enter, so they can actually read what just happened
