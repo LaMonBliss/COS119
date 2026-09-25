@@ -703,15 +703,25 @@ bool Game::AskGuessQuestion()
     std::cout << "\n--- Guess It ---\n";
     std::cout << pointsPerQuestion << " points\n";
     std::cout << "What compound has the formula " << target.GetFormula() << " ?\n";
-    std::cout << "Your guess: ";
 
-    // read the whole line since names can have spaces, like Carbon Dioxide
+    // keep reading until the player gives a real guess.. typing hint just shows a clue and asks again
     std::string guess;
-    std::getline(std::cin, guess);
+    while (true)
+    {
+        std::cout << "Your guess (or type hint): ";
+        std::getline(std::cin, guess);   // whole line since names can have spaces, like Carbon Dioxide
+
+        if (Normalize(guess) == "hint")
+        {
+            // the clue is the first letter of the name.. enough to point them at it without giving it away
+            std::cout << "  Hint: the name starts with the letter " << target.GetName()[0] << ".\n";
+            continue;   // loop back and ask for the guess again
+        }
+        break;   // a real guess, move on
+    }
 
     // run BOTH the guess and the real name through Normalize before comparing.. that way casing and
     // stray spaces do not matter, so water, WATER, and " Water " all count as a correct Water
-    // did they get it? then hand the result off to the shared ending, with my own miss message
     bool correct = (Normalize(guess) == Normalize(target.GetName()));
     ShowResult(correct, target, "Not quite. That formula is " + target.GetName() + ".");
     return correct;
@@ -735,13 +745,21 @@ bool Game::AskBuildQuestion()
 
     while (true)
     {
-        std::cout << "Element symbol (or done): ";
+        std::cout << "Element symbol (done, or hint): ";
         std::string symbol;
         std::getline(std::cin, symbol);
 
         if (Normalize(symbol) == "done")   // the player is finished adding elements
         {
             break;
+        }
+
+        if (Normalize(symbol) == "hint")   // give a clue about the size of the formula, then ask again
+        {
+            // the clue is how many atoms the real formula has.. helps without spelling it out
+            std::vector<std::string> hintAtoms = ParseFormula(target.GetFormula());
+            std::cout << "  Hint: this formula has " << hintAtoms.size() << " atoms in total.\n";
+            continue;   // loop back and ask for a symbol again
         }
 
         // make sure it is a real element from our list before we accept it
