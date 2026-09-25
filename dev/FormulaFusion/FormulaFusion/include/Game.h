@@ -35,6 +35,7 @@ private:
     void ShowTitleScreen() const;           // prints the ascii title screen when the game first starts
     void PauseForEnter() const;             // waits for Enter so the player can read the screen before it clears
     void ShowMenu() const;                  // prints the main menu options
+    void HowToPlay() const;                 // prints an explanation of the game and its options
     void ViewElements() const;              // lists every element i loaded
     void ViewCompounds() const;             // lists every compound with its formula
     void GuessItMode();                     // runs a Guess It round (wrapper around PlayRound)

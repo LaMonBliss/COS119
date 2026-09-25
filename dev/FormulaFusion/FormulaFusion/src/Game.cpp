@@ -220,16 +220,17 @@ void Game::Run()
         std::cout << "=====================================\n";
 
         ShowMenu();
-        int choice = GetChoice(1, 6);   // only 1 through 6 are real options
+        int choice = GetChoice(1, 7);   // only 1 through 7 are real options
 
         switch (choice)
         {
-        case 1: ViewElements(); break;
-        case 2: ViewCompounds(); break;
-        case 3: GuessItMode(); break;
-        case 4: BuildItMode(); break;
-        case 5: ViewHighScores(); break;
-        case 6:
+        case 1: HowToPlay(); break;
+        case 2: ViewElements(); break;
+        case 3: ViewCompounds(); break;
+        case 4: GuessItMode(); break;
+        case 5: BuildItMode(); break;
+        case 6: ViewHighScores(); break;
+        case 7:
             // if the player scored anything this session, save it to the high scores before we leave
             if (currentScore > 0)
             {
@@ -286,12 +287,42 @@ void Game::ShowMenu() const
 {
     std::cout << "\n------------ Main Menu ------------\n";
     std::cout << "Player: " << playerName << "     Score: " << currentScore << "     Difficulty: " << difficultyName << "\n";
-    std::cout << "1. View Elements\n";
-    std::cout << "2. View Compounds\n";
-    std::cout << "3. Guess It  (guess the compound from its formula)\n";
-    std::cout << "4. Build It  (build the formula from elements)\n";
-    std::cout << "5. View High Scores\n";
-    std::cout << "6. Quit\n";
+    std::cout << "1. How to Play\n";
+    std::cout << "2. View Elements\n";
+    std::cout << "3. View Compounds\n";
+    std::cout << "4. Guess It  (guess the compound from its formula)\n";
+    std::cout << "5. Build It  (build the formula from elements)\n";
+    std::cout << "6. View High Scores\n";
+    std::cout << "7. Quit\n";
+}
+
+// prints an explanation of the game so a brand new player knows exactly what to do.
+void Game::HowToPlay() const
+{
+    std::cout << "\n--- How to Play ---\n\n";
+    std::cout << "Formula Fusion is a chemistry game about elements and compounds.\n\n";
+
+    std::cout << "The two game modes:\n";
+    std::cout << "  Guess It: you see a chemical formula and you type the compound's name.\n";
+    std::cout << "  Build It: you see a compound's name and you build its formula from elements.\n\n";
+
+    std::cout << "Scoring:\n";
+    std::cout << "  Each correct answer earns points, and your difficulty sets how many.\n";
+    std::cout << "  Easy is 10, Medium is 20, and Hard is 30 points per question.\n";
+    std::cout << "  Harder difficulties also mix in tougher compounds.\n\n";
+
+    std::cout << "Rounds:\n";
+    std::cout << "  Pick a quick round of five questions, or an endless run until you stop.\n\n";
+
+    std::cout << "Helpful stuff:\n";
+    std::cout << "  Type hint while answering to get a clue.\n";
+    std::cout << "  Casing, spaces, and punctuation do not matter when you answer.\n";
+    std::cout << "  In Build It, enter element symbols like H or Na one at a time, then type done.\n\n";
+
+    std::cout << "The other menu options:\n";
+    std::cout << "  View Elements lets you browse the periodic table and see any element as an atom.\n";
+    std::cout << "  View Compounds lets you browse compounds and see their molecule diagrams.\n";
+    std::cout << "  View High Scores shows the top ten scores, saved under each player's name.\n";
 }
 
 // list out every element i loaded, lined up in a little table
