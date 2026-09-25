@@ -38,6 +38,11 @@ an element and sees it drawn as a single boxed atom, so the ASCII visuals show u
 The game now loads all 118 elements of the periodic table and a library of 34 compounds spread
 across the three difficulty levels, all with real formulas and fun facts.
 
+**Hint option**
+While answering, the player can type hint to get a clue. In Guess It the hint reveals the first
+letter of the compound's name, and in Build It it reveals how many atoms the formula has in total.
+It points the player in the right direction without handing them the answer.
+
 **Title screen and paging polish**
 The game now opens on an ASCII title screen showing the game name and a little water molecule. Both
 long lists are paged too, with next and previous navigation, so View Elements and View Compounds
