@@ -7,15 +7,17 @@ class Compound
 {
 public:
     Compound();   // default constructor, empty placeholder
-    Compound(const std::string& name, const std::string& formula, const std::string& fact);
+    Compound(const std::string& name, const std::string& formula, const std::string& fact, int difficulty);
 
     // getters, all const since reading a compound should never change it
     std::string GetName() const;
     std::string GetFormula() const;
     std::string GetFact() const;
+    int GetDifficulty() const;
 
 private:
     std::string name;      // what people call it, like Water
     std::string formula;   // the chemical formula, like H2O
     std::string fact;      // a one liner about it
+    int difficulty;        // how hard it is, 1 easy, 2 medium, 3 hard
 };

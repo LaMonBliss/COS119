@@ -22,21 +22,30 @@ public:
 private:
     std::vector<Element> elements;     // my subset of the periodic table
     std::vector<Compound> compounds;   // the compounds the player can learn and guess
-    int currentScore = 0;              // how many the player has gotten right this session
+    int currentScore = 0;              // the player's running points this session
+    int pointsPerQuestion = 10;        // how many points a correct answer is worth, set by the difficulty
+    int maxDifficulty = 3;             // the hardest compound level allowed, set by the difficulty
+    std::string difficultyName = "Hard";  // the chosen difficulty name, shown in the header
     std::vector<Highscore> highScores; // the saved leaderboard, loaded from and written back to a file
     std::string highScoreFile = "highscores.txt";  // the file the high scores live in
     std::string playerName;            // the name the player gives at the start, used when saving their score
 
     void LoadData();                        // fills the two vectors above with the starting set
     void ClearScreen() const;               // wipes the console so each screen starts fresh instead of scrolling
+    void ShowTitleScreen() const;           // prints the ascii title screen when the game first starts
     void PauseForEnter() const;             // waits for Enter so the player can read the screen before it clears
     void ShowMenu() const;                  // prints the main menu options
+    void HowToPlay() const;                 // prints an explanation of the game and its options
     void ViewElements() const;              // lists every element i loaded
     void ViewCompounds() const;             // lists every compound with its formula
-    void GuessItMode();                     // show a formula, let the player guess the name
-    void BuildItMode();                     // name a compound, let the player assemble the formula
+    void GuessItMode();                     // runs a Guess It round (wrapper around PlayRound)
+    void BuildItMode();                     // runs a Build It round (wrapper around PlayRound)
+    void PlayRound(bool guessMode);         // plays a round of questions, either a set length or endless
+    bool AskGuessQuestion();                // asks one Guess It question, returns whether it was right
+    bool AskBuildQuestion();                // asks one Build It question, returns whether it was right
     void ShowResult(bool correct, const Compound& target, const std::string& missMessage);  // shared correct or miss ending for both modes
     void DrawMolecule(const std::vector<std::string>& atoms) const;  // draws the assembled atoms as an ascii molecule diagram
+    std::vector<std::string> ParseFormula(const std::string& formula) const;  // breaks a formula string into a list of atoms to draw
     int GetChoice(int min, int max) const;  // safe menu input, keeps asking until it is valid
     int GetCount(int min, int max) const;   // reads a whole number count for Build It, line based
     std::string Normalize(const std::string& text) const;  // lowercases and strips spaces/special chars so guesses are forgiving

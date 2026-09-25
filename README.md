@@ -117,3 +117,40 @@ helpers instead of leaving it copy pasted.
 
 Before Week 4 I want to keep refining, sort the high scores so the best one shows first, and
 maybe add a few more compounds so there is more variety to play with.
+
+### Milestone 4
+
+**Overview**
+
+This was the final week, and I finished Formula Fusion into a complete, polished game. It went from
+a simple two mode quiz at the start of the course into a full console chemistry game.
+
+**Project Wrap-Up**
+
+I finished the last features and polished everything. I added a points system with difficulty
+levels, quick and endless rounds with numbered questions, a top ten leaderboard that saves under
+your name, ASCII molecule diagrams you can view in both the elements and compounds screens, a hint
+option, a How to Play screen, an ASCII title screen, and the full 118 element periodic table with a
+library of compounds. I also paged the long lists so nothing scrolls off, refactored the shared
+logic into helpers like a single round runner and a formula parser, and ran a bug pass with no
+issues found.
+
+**Challenges**
+
+The biggest challenge was adding a lot of features quickly without turning my Game class into a
+mess. I handled it by pulling shared logic into small helpers, like one round runner both game
+modes call and one formula parser my ASCII drawing reuses. Earlier in the course the Git branch and
+pull request workflow tripped me up, but by now it feels natural.
+
+**Biggest Takeaway**
+
+The most valuable thing I learned was how much smoother development goes when you plan with GitHub
+issues and work in small committed steps instead of one big push. Breaking the project into
+trackable pieces and using version control the whole way is what let me keep building without
+losing track of anything.
+
+**Future Development**
+
+If I kept going, I would add a reaction mode where you combine two compounds to make a new one,
+colored console output to make the molecules pop, and eventually a mode that has you balance
+chemical equations.
