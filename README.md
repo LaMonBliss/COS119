@@ -122,40 +122,35 @@ maybe add a few more compounds so there is more variety to play with.
 
 **Overview**
 
-This was the final week, and I went big. I turned Formula Fusion from a simple quiz into a full
-game with progression, difficulty, and a real content library, while keeping the code clean as it
-grew.
+This was the final week, and I finished Formula Fusion into a complete, polished game. It went from
+a simple two mode quiz at the start of the course into a full console chemistry game.
 
-**Improvements**
+**Project Wrap-Up**
 
-I added the player name and score to the header, a real points per question system, and a
-difficulty select that changes both the points and which compounds show up. I gave both game modes
-quick and endless rounds with numbered questions and a round summary, so it is no longer one
-question and back to the menu. I made both view screens interactive so you can
-pick a compound and see its molecule, or pick an element and see it drawn as a single atom. And I loaded the whole content library, all 118 elements of
-the periodic table and 34 compounds across the difficulty levels. On the code side I split each
-mode into a single question helper and wrote one shared round runner they both call, and I added a
-formula parser so the molecule viewer could reuse my existing drawing helper.
+I finished the last features and polished everything. I added a points system with difficulty
+levels, quick and endless rounds with numbered questions, a top ten leaderboard that saves under
+your name, ASCII molecule diagrams you can view in both the elements and compounds screens, a hint
+option, a How to Play screen, an ASCII title screen, and the full 118 element periodic table with a
+library of compounds. I also paged the long lists so nothing scrolls off, refactored the shared
+logic into helpers like a single round runner and a formula parser, and ran a bug pass with no
+issues found.
 
 **Challenges**
 
-The main challenge was adding a lot of features fast without turning the Game class into a mess. I
-kept it under control by pulling shared logic into helpers like the round runner and the formula
-parser. Some smaller puzzles came up too, like raising the build count cap so big molecules like
-sucrose could still be built, and guarding the molecule drawing so huge molecules do not spill off
-the screen.
+The biggest challenge was adding a lot of features quickly without turning my Game class into a
+mess. I handled it by pulling shared logic into small helpers, like one round runner both game
+modes call and one formula parser my ASCII drawing reuses. Earlier in the course the Git branch and
+pull request workflow tripped me up, but by now it feels natural.
 
-**Accomplishments**
+**Biggest Takeaway**
 
-I leveled up on structuring a program as it grows. Splitting the modes into small helpers and
-sharing one round runner made adding features feel clean instead of chaotic, and writing my own
-formula parser with plain character math was a good exercise in breaking a problem down.
+The most valuable thing I learned was how much smoother development goes when you plan with GitHub
+issues and work in small committed steps instead of one big push. Breaking the project into
+trackable pieces and using version control the whole way is what let me keep building without
+losing track of anything.
 
-I also finished the polish this week. The game opens on an ASCII title screen, and the long lists
-are now paged, View Elements shows twenty at a time and View Compounds pages through with next and
-previous navigation, so nothing runs off the screen.
+**Future Development**
 
-**Next Steps**
-
-The core game is complete and polished. My last step is putting together the showcase presentation
-to demo everything the game can do, then the final submission.
+If I kept going, I would add a reaction mode where you combine two compounds to make a new one,
+colored console output to make the molecules pop, and eventually a mode that has you balance
+chemical equations.
