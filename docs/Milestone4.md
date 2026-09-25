@@ -43,6 +43,11 @@ While answering, the player can type hint to get a clue. In Guess It the hint re
 letter of the compound's name, and in Build It it reveals how many atoms the formula has in total.
 It points the player in the right direction without handing them the answer.
 
+**How to Play menu option**
+The menu now has a How to Play option as the first choice that explains the whole game, the two
+modes, scoring, difficulty, rounds, the hint, and the view options, so a brand new player can pick
+it up without any outside explanation.
+
 **Title screen and paging polish**
 The game now opens on an ASCII title screen showing the game name and a little water molecule. Both
 long lists are paged too, with next and previous navigation, so View Elements and View Compounds
